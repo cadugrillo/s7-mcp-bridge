@@ -1,0 +1,27 @@
+{
+  "name": "s7-mcp-bridge",
+  "version": "0.4.0",
+  "description": "S7-MCP-Bridge is a MCP Server that connects AI agents to Siemens industrial PLCs (specifically S7-1500 and S7-1200 models).",
+  "type": "module",
+  "bin": {
+    "mcp-framework-101": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && mcp-build",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "mcp-framework": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  }
+}
