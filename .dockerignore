@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+dist
+.git
+.gitignore
+Dockerfile
+.dockerignore
+README.md
+zz_useful_cli.txt

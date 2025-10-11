@@ -1,149 +1,152 @@
-# mcp-framework-101
+<p align="left">
+  <img title="s7-mcp-bridge" src='https://raw.githubusercontent.com/cadugrillo/s7-mcp-bridge/main/logo.png' width="110" height="110"/>
+</p>
 
-A Model Context Protocol (MCP) server built with mcp-framework.
+# S7 MCP Bridge
 
-## Quick Start
+**S7 MCP Bridge** is a MCP Server that connects AI agents to Siemens industrial PLCs (specifically S7-1500 and S7-1200 models). This allows AI agents to automatically monitor and control industrial equipment by sending commands and receiving data from the machines.
+
+---
+
+## 🔧 Available Tools
+
+  - User authentication (`login`, `logout`, `ChangePassword-user`)
+  - Check PLC connectivity (`ping`)
+  - Retrieve user permissions (`Api-GetPermissions`)
+  - Get API version (`Api-Version`)
+  - List available API methods (`Api-Browse`)
+  - Retrieve structure information (`Api-GetQuantityStructures`)
+  - Get password security policies (`Api-GetPasswordPolicy`)
+  - Browse tags and metadata (`PlcProgram-Browse`)
+  - Read single variables (`PlcProgram-Read`)
+  - Write Boolean, Number, or String tags (`PlcProgram-Write`)
+  - Read the current CPU operating mode (`Plc-ReadOperatingMode`)
+  - Request a change of operating mode (`Plc-RequestChangeOperatingMode`)
+  - Read the CPU system time (`Plc-ReadSystemTime`)
+  - Set the CPU system time (`Plc-SetSystemTime`)
+  - Read available project languages (`Project-ReadLanguages`)
+  - Browse active alarms (`Alarms-Browse`)
+  - Acknowledge alarms (`Alarms-Acknowledge`)
+  - Browse diagnostic buffer entries (`DiagnosticBuffer-Browse`)
+
+---
+
+## ⚙️ Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18.x or later recommended)
+- npm (comes bundled with Node.js)
+- Access to a running **SIEMENS PLC API (Webserver)**
+
+---
+
+## ⚙️ Configuration
+
+This server uses environment variables for configuration.
+
+### Example `env variables`:
 
 ```bash
-# Install dependencies
+export PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202"
+export PLC_NAMES="PLC1, PLC2, PLC3" //optional
+export MCP_SERVER_PORT=5000 //optional
+export TRANSPORT="http-stream" //optional
+```
+
+## 🚀 Getting Started (Development)
+
+1. Git Clone this repo: https://github.com/cadugrillo/s7-mcp-bridge.git 
+
+2. Navigate to the project folder:
+
+```bash
+cd s7-mcp-bridge
+```
+
+3. Install dependencies:
+
+```bash
 npm install
-
-# Build the project
-npm run build
-
 ```
 
-## Project Structure
-
-```
-mcp-framework-101/
-├── src/
-│   ├── tools/        # MCP Tools
-│   │   └── ExampleTool.ts
-│   └── index.ts      # Server entry point
-├── package.json
-└── tsconfig.json
-```
-
-## Adding Components
-
-The project comes with an example tool in `src/tools/ExampleTool.ts`. You can add more tools using the CLI:
+4. Build the project:
 
 ```bash
-# Add a new tool
-mcp add tool my-tool
-
-# Example tools you might create:
-mcp add tool data-processor
-mcp add tool api-client
-mcp add tool file-handler
+npm run build
 ```
 
-## Tool Development
+5. Edit env variables as shown above.
 
-Example tool structure:
+6. Start the server
 
-```typescript
-import { MCPTool } from "mcp-framework";
-import { z } from "zod";
-
-interface MyToolInput {
-  message: string;
-}
-
-class MyTool extends MCPTool<MyToolInput> {
-  name = "my_tool";
-  description = "Describes what your tool does";
-
-  schema = {
-    message: {
-      type: z.string(),
-      description: "Description of this input parameter",
-    },
-  };
-
-  async execute(input: MyToolInput) {
-    // Your tool logic here
-    return `Processed: ${input.message}`;
-  }
-}
-
-export default MyTool;
+```bash
+npm run start
 ```
 
-## Publishing to npm
+## 🐳 Docker Container
 
-1. Update your package.json:
-   - Ensure `name` is unique and follows npm naming conventions
-   - Set appropriate `version`
-   - Add `description`, `author`, `license`, etc.
-   - Check `bin` points to the correct entry file
+There is a Docker Container Image avaiable at https://hub.docker.com/r/cadugrillo/s7-mcp-bridge/tags
 
-2. Build and test locally:
-   ```bash
-   npm run build
-   npm link
-   mcp-framework-101  # Test your CLI locally
-   ```
-
-3. Login to npm (create account if necessary):
-   ```bash
-   npm login
-   ```
-
-4. Publish your package:
-   ```bash
-   npm publish
-   ```
-
-After publishing, users can add it to their claude desktop client (read below) or run it with npx
+- How to run
+```bash
+docker run -dp 5000:5000 -m 512m --memory-swap=512m \
+--name s7mcp \
+-e MCP_SERVER_PORT=5000 \
+-e PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202" \
+-e PLC_NAMES="PLC1, PLC2, PLC3" \
+cadugrillo/s7-mcp-bridge:latest
 ```
 
-## Using with Claude Desktop
+**Remember to change port according to your deployment.**
 
-### Local Development
 
-Add this configuration to your Claude Desktop config file:
+- Available Environment Variables
 
-**MacOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+| | | |
+| :---------------------------: | :--------: | :------------------------------------------------------- |
+|  PLC_IP_ADDRESSES             | required   | IP addresses of available PLCs separated by comma eg. "192.168.1.10, 192.168.1.20" |
+|  PLC_NAMES                    | optional   | Names of available PLCs separated by comma eg. "Machine1, Machine2" |
+|  MCP_SERVER_PORT              | optional   | If not set, it defaults to 5000 |
+|  TRANSPORT                    | optional   | It can be "http-stream" or "stdio". If not set it defaults to http-stream |
+
+
+### 🖥️ Connecting with Claude Desktop
+
+To use this MCP server with Claude AI (desktop version):
+
+1. Find or create the claude_desktop_config.json file
+   (typically in the Claude app config folder).
+
+2. Add or update the following if running in a container (http-stream) (remember to change port according to your deployment):
 
 ```json
 {
   "mcpServers": {
-    "mcp-framework-101": {
-      "command": "node",
-      "args":["/absolute/path/to/mcp-framework-101/dist/index.js"]
-    }
-  }
-}
-```
-
-### After Publishing
-
-Add this configuration to your Claude Desktop config file:
-
-**MacOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "mcp-framework-101": {
+    "S7-MCP-SERVER": {
       "command": "npx",
-      "args": ["mcp-framework-101"]
+      "args": ["mcp-remote", "http://localhost:5000/mcp"]
     }
   }
 }
 ```
 
-## Building and Testing
+3. Or use the following if running locally (stdio):
 
-1. Make changes to your tools
-2. Run `npm run build` to compile
-3. The server will automatically load your tools on startup
+```json
+{
+  "mcpServers": {
+    "S7-MCP-SERVER": {
+      "command": "node",
+      "args": ["path/to/your/index.js"], //`for Windows user proper escape (eg. C:\\path\\to\\your\\index.js.js)`
+      "env": {
+        "PLC_IP_ADDRESSES":"192.168.2.200, 192.168.2.201, 192.168.2.202",
+        "PLC_NAMES":"PLC1, PLC2, PLC3",
+        "TRANSPORT": "stdio"
+      }
+    }
+  }
+}
+```
 
-## Learn More
+### 🪲 Reporting bugs and contributing
 
-- [MCP Framework Github](https://github.com/QuantGeekDev/mcp-framework)
-- [MCP Framework Docs](https://mcp-framework.com)
+- Want to report a bug or request a feature? Please open an [issue](https://github.com/cadugrillo/s7-mcp-bridge/issues/new)
