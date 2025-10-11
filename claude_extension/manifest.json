@@ -1,0 +1,104 @@
+{
+  "manifest_version": "0.2",
+  "name": "S7 MCP Bridge",
+  "version": "0.1.0",
+  "description": "**S7 MCP Bridge** is a MCP Server that connects AI agents to Siemens industrial PLCs (specifically S7-1500 and S7-1200 models). This allows AI agents to automatically monitor and control industrial equipment by sending commands and receiving data from the machines.",
+  "long_description": "",
+  "author": {
+    "name": "Carlos Grillo",
+    "email": "cadugrillo@gmail.com",
+    "url": "https://cadugrillo.com"
+  },
+  "homepage": "https://github.com/cadugrillo/s7-mcp-bridge",
+  "documentation": "https://github.com/cadugrillo/s7-mcp-bridge",
+  "support": "https://github.com/cadugrillo/s7-mcp-bridge/issues/new",
+  "icon": "logo.png",
+  "server": {
+    "type": "node",
+    "entry_point": "index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/index.js"
+      ],
+      "env": {
+        "PLC_IP_ADDRESSES":"${user_config.plc_ip_addresses}",
+        "PLC_NAMES":"${user_config.plc_names}",
+        "TRANSPORT": "stdio",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "Login, Logout, ChangePassword",
+      "description": "User authentication and password management."
+    },
+    {
+      "name": "Ping",
+      "description": "Check PLC connectivity status."
+    },
+    {
+      "name": "Api-GetPermissions",
+      "description": "Retrieve user permissions from the PLC."
+    },
+    {
+      "name": "Api-Version",
+      "description": "Get API version information."
+    },
+    {
+      "name": "Api-Browse",
+      "description": "List available API methods."
+    },
+    {
+      "name": "Api-GetQuantityStructures",
+      "description": "Retrieve structure information from the PLC."
+    },
+    {
+      "name": "Api-GetPasswordPolicy",
+      "description": "Get password security policies."
+    },
+    {
+      "name": "PlcProgram-Browse",
+      "description": "Browse tags and metadata in the PLC program."
+    },
+    {
+      "name": "PlcProgram-Read",
+      "description": "Read single variables from the PLC."
+    },
+    {
+      "name": "PlcProgram-Write",
+      "description": "Write Boolean, Number, or String tags in the PLC."
+    }
+  ],
+  "user_config": {
+    "plc_ip_addresses": {
+      "type": "string",
+      "title": "PLC IP Addresses",
+      "description": "IP addresses of available PLCs separated by comma eg. 192.168.1.10, 192.168.1.20",
+      "required": true,
+      "sensitive": false
+    },
+    "plc_names": {
+      "type": "string",
+      "title": "PLC Names",
+      "description": "Names of available PLCs separated by comma eg. Machine1, Machine2",
+      "required": false,
+      "sensitive": false
+    }
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "monitoring",
+    "plc",
+    "siemens",
+    "S7",
+    "industrial-automation"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cadugrillo/s7-mcp-bridge"
+  }
+}
