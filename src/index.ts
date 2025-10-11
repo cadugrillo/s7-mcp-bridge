@@ -1,5 +1,7 @@
 import { MCPServer, TransportType } from "mcp-framework";
-
+// ------------------------------------------------------------------------------------------------------------
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; //Local PLCs have self-signed certificates that can't be validated using Public CAs
+// ------------------------------------------------------------------------------------------------------------
 let transport: TransportType = "http-stream"
 
 if (process.env["TRANSPORT"] === "stdio") {
