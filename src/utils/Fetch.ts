@@ -1,3 +1,5 @@
+import { logger } from "mcp-framework";
+
 // ------------------------------------------------------------------------------------------------------------
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; //for testing only, not recommended for production
 // ------------------------------------------------------------------------------------------------------------
@@ -21,7 +23,7 @@ export const sendReq = async (plcIpAddress: any, authInfos: any, method: any) =>
 
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error(
+      logger.error(
         `send request || request failed with status ${response.status}: ${errorBody}`
       );
     }
@@ -29,15 +31,12 @@ export const sendReq = async (plcIpAddress: any, authInfos: any, method: any) =>
     const jsonResponse = await response.json();
 
     if (jsonResponse.errors) {
-      console.error(
-        "send request || errors:",
-        JSON.stringify(jsonResponse.errors, null, 2)
-      );
+      logger.error(`send request || errors:" ${JSON.stringify(jsonResponse.errors, null, 2)}`);
     }
     return jsonResponse;
     
   } catch (error: any) {
-    console.error("send request || error:", error.message);
+    logger.error(`send request || error:" ${error.message}`);
     throw error;
   }
 };

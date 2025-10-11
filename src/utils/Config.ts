@@ -5,7 +5,7 @@ interface Plc {
 	plcIpAddress: string;
 }
 
-export const AvailablePlcs = (): Plc[] => {
+export const AvailablePLCs = (): Plc[] => {
 
 	const pathToConfig = '/cfg-data/config.json';
 	if (fs.existsSync(pathToConfig)) {
