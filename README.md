@@ -89,7 +89,7 @@ There is a Docker Container Image avaiable at https://hub.docker.com/r/cadugrill
 - How to run
 ```bash
 docker run -dp 5000:5000 -m 512m --memory-swap=512m \
---name s7mcp \
+--name s7McpBridge \
 -e MCP_SERVER_PORT=5000 \
 -e PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202" \
 -e PLC_NAMES="PLC1, PLC2, PLC3" \
@@ -121,7 +121,7 @@ To use this MCP server with Claude AI (desktop version):
 ```json
 {
   "mcpServers": {
-    "S7-MCP-SERVER": {
+    "S7-MCP-Bridge": {
       "command": "npx",
       "args": ["mcp-remote", "http://localhost:5000/mcp"]
     }
@@ -134,7 +134,7 @@ To use this MCP server with Claude AI (desktop version):
 ```json
 {
   "mcpServers": {
-    "S7-MCP-SERVER": {
+    "S7-MCP-Bridge": {
       "command": "node",
       "args": ["path/to/your/index.js"], //`for Windows user proper escape (eg. C:\\path\\to\\your\\index.js.js)`
       "env": {
