@@ -9,8 +9,6 @@ if (process.env["TRANSPORT"] === "stdio") {
 }
 
 const server = new MCPServer({
-    name: "s7-mcp-bridge",
-    version: "0.1.0",
     transport: {
         type: transport,
         options: {

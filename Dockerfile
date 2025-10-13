@@ -20,11 +20,15 @@ RUN npm run build
 # Use a smaller base image for the final stage
 FROM node:22-alpine
 
-# Copy the compiled and bundled application from the build stage
+# Copy the Javascript application and dependencies
 COPY --from=build /usr/src/app/dist /usr/src/app
+COPY package.json /usr/src/app
 
 # Set the working directory in the final container
 WORKDIR /usr/src/app
+
+# Install application dependencies
+RUN npm install
 
 # Define the command to run your application
 CMD [ "node", "index.js" ]
