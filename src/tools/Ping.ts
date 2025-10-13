@@ -34,7 +34,7 @@ class Ping extends MCPTool<PingInput> {
       return JSON.stringify(data?.result ? { uID: data.result } : data, null, 2);
     } catch (err: any) {
       logger.error(`Tool 'Api-Ping' || Error: ${err.message}`);
-      return `Tool 'Api-Ping' || Error: ${JSON.stringify(err.message), null, 2}`;
+      return `Tool 'Api-Ping' || Error: ${JSON.stringify(err.message, null, 2)}`;
     }
   }
 }
