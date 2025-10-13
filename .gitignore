@@ -5,9 +5,4 @@ logs
 .DS_Store
 .idea
 .vscode
-claude_extension/*.mcpb
-claude_extension/tools
-claude_extension/utils
-claude_extension/*.js
-claude_extension/node_modules
-claude_extension/*.json
+cldext
