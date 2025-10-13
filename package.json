@@ -14,7 +14,9 @@
   "scripts": {
     "build": "tsc && mcp-build",
     "watch": "tsc --watch",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "copy-files": "cpy dist/** package*.json node_modules claude_extension/** cldext",
+    "clbundle": "npm run copy-files && mcpb pack cldext/ claude_extension/s7-mcp-bridge-v%npm_package_version%.mcpb"
   },
   "dependencies": {
     "mcp-framework": "^0.2.2"
