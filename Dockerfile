@@ -28,7 +28,7 @@ COPY package.json /usr/src/app
 WORKDIR /usr/src/app
 
 # Install application dependencies
-RUN npm install
+RUN npm install --omit=dev
 
 # Define the command to run your application
 CMD [ "node", "index.js" ]
