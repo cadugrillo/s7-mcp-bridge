@@ -2,6 +2,7 @@ import { MCPTool, logger } from "mcp-framework";
 import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
+import { ipAddressSchema } from "../utils/Schemas.js";
 
 interface GetPermissionsInput {
   plcIpAddress: string;
@@ -15,7 +16,7 @@ After the successful login, the Api.GetPermissions returns a list of actions for
 
   schema = {
     plcIpAddress: {
-      type: z.string().min(1, "plc ip address cannot be empty."),
+      type: ipAddressSchema,
       description: "PLC IP Address",
     },
   };

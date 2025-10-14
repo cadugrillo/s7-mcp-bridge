@@ -2,6 +2,7 @@ import { MCPTool, logger } from "mcp-framework";
 import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
+import { ipAddressSchema } from "../utils/Schemas.js";
 
 interface LogoutInput {
   plcIpAddress: string;
@@ -17,7 +18,7 @@ For security reasons, however, the method always returns the Boolean value "true
 
   schema = {
     plcIpAddress: {
-      type: z.string().min(1, "plc ip address cannot be empty."),
+      type: ipAddressSchema,
       description: "PLC IP Address",
     },
   };
@@ -29,7 +30,7 @@ For security reasons, however, the method always returns the Boolean value "true
         jsonrpc: "2.0",
         method: "Api.Logout",
       };
-      const data = await sendReq(input.plcIpAddress, null, method);
+      const data = await sendReq(input.plcIpAddress, credentialsStore.get(input.plcIpAddress), method);
       if (data?.result) {
 
         // Remove credentials from the store on successful logout

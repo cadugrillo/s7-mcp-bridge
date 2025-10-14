@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { AlarmsBrowseFiltersRequestType } from "../utils/Enum.js";
+import { ipAddressSchema } from "../utils/Schemas.js";
 
 interface AlarmsBrowseInput {
   plcIpAddress: string;
@@ -22,7 +23,7 @@ interface Params {
 }
 
 const AlarmsBrowseSchema = z.object({
-  plcIpAddress: z.string().min(1, "plc ip address cannot be empty.").describe("PLC IP Address"),
+  plcIpAddress: ipAddressSchema.describe("PLC IP Address"),
   language: z.string().min(1, "language cannot be empty.").default("en-US").describe("The desired language in which the text is returned in RFC 4647 format, e.g. \"en-US\""),
   count: z.number().optional().describe("The maximum number of alarm entries that are returned. The default value is 50. If you want to determine the current status of the diagnostics buffer, enter 0 as \"count\"."),
   alarm_id: z.string().optional().describe("The alarm ID of the CPU for which you are requesting data. If the Alarm ID is included, only the \"count\" parameter can be offered as a filter."),

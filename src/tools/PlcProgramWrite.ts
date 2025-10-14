@@ -92,8 +92,8 @@ Possible error messages:
       const data = await sendReq(input.plcIpAddress, credentialsStore.get(input.plcIpAddress), method);
       return JSON.stringify(data?.result ? { NewValueAccepted: data.result } : data, null, 2);
     } catch (err: any) {
-      logger.error(`Tool 'PlcProgram-Read' || Error: ${err.message}`);
-      return `Tool 'PlcProgram-Read' || Error: ${JSON.stringify(err.message, null, 2)}`;
+      logger.error(`Tool 'PlcProgram-Write' || Error: ${err.message}`);
+      return `Tool 'PlcProgram-Write' || Error: ${JSON.stringify(err.message, null, 2)}`;
     }
   }
 }

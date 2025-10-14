@@ -1,6 +1,7 @@
 import { MCPTool, logger } from "mcp-framework";
 import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
+import { ipAddressSchema } from "../utils/Schemas.js";
 
 interface BrowseInput {
   plcIpAddress: string;
@@ -18,7 +19,7 @@ Possible error messages:
 
   schema = {
     plcIpAddress: {
-      type: z.string().min(1, "plc ip address cannot be empty."),
+      type: ipAddressSchema,
       description: "PLC IP Address",
     },
   };

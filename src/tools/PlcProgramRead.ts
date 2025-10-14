@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { objectReadType } from "../utils/Enum.js";
+import { ipAddressSchema } from "../utils/Schemas.js";
 
 interface PlcProgramReadInput {
   plcIpAddress: string;
@@ -16,7 +17,7 @@ interface Params {
 }
 
 const PlcProgramReadSchema = z.object({
-  plcIpAddress: z.string().min(1, "plc ip address cannot be empty.").describe("PLC IP Address"),
+  plcIpAddress: ipAddressSchema.describe("PLC IP Address"),
   _var: z.string().optional().default("").describe("Name of the tag to be searched"),
   mode: objectReadType.optional().default("simple").describe("Always use the \"simple\" mode"),
 });
