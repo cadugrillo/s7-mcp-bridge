@@ -1,0 +1,23 @@
+{
+    "mcpServers": {
+        "S7-MCP-SERVER-local": {
+            "command": "node",
+            "args": [
+                "path/to/your/s7McpServer.js"
+            ],
+            "env": {
+                "PLC_IP_ADDRESSES":"192.168.2.200, 192.168.2.201, 192.168.2.202",
+                "PLC_NAMES":"PLC1, PLC2, PLC3",
+                "TRANSPORT": "stdio",
+                "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+            }
+        },
+        "S7-MCP-SERVER-remote": {
+            "command": "npx",
+            "args": [
+                "mcp-remote",
+                "http://localhost:5000/mcp"
+            ]
+        }
+    }
+}
