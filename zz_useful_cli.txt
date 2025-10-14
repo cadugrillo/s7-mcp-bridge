@@ -1,0 +1,37 @@
+-------------Testing------------------
+MCP Server at: "http://192.168.2.239:5000/mcp"
+
+npx @modelcontextprotocol/inspector
+
+-------------AVAILABLE ENVs--------------------
+
+Linux/Mac:
+
+export PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202"
+export PLC_NAMES="PLC1, PLC2, PLC3"
+export MCP_SERVER_PORT=5000
+export TRANSPORT="http-stream"
+
+Windows:
+
+$Env:PLC_IP_ADDRESSES="192.168.2.201, 192.168.2.202, 192.168.2.203"
+$Env:PLC_NAMES="PLC1, PLC2, PLC3"
+$Env:MCP_SERVER_PORT=5000
+$Env:TRANSPORT="http-stream"
+
+-------------DOCKER CONTAINER--------------------
+
+----------Linux/Mac---------------------
+docker run -dp 5000:5000 -m 512m --memory-swap=512m \
+--name s7McpBridge \
+-e MCP_SERVER_PORT=5000 \
+-e PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202" \
+-e PLC_NAMES="PLC1, PLC2, PLC3" \
+cadugrillo/s7-mcp-bridge:0.1.0
+
+----------Windows---------------------
+docker run -dp 5000:5000 -m 512m --memory-swap=512m `
+--name s7McpBridge `
+-e PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202" `
+-e PLC_NAMES="PLC1, PLC2, PLC3" `
+cadugrillo/s7-mcp-bridge:0.1.0
