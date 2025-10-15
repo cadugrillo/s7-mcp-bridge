@@ -19,6 +19,7 @@
     "clbundle": "npm run copy-files && mcpb pack cldext/ claude_extension/s7-mcp-bridge-v%npm_package_version%.mcpb"
   },
   "dependencies": {
+    "cpy-cli": "^6.0.0",
     "mcp-framework": "^0.2.2"
   },
   "devDependencies": {
