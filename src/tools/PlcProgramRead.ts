@@ -4,6 +4,7 @@ import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { objectReadType } from "../utils/Enum.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface PlcProgramReadInput {
   plcIpAddress: string;
@@ -74,7 +75,7 @@ In the following example, the user requests a data block tag in the "simple" rep
         params["mode"] = input.mode;
       }
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "PlcProgram.Read",
         params,

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface AlarmsAcknowledgeInput {
   plcIpAddress: string;
@@ -44,7 +45,7 @@ Possible error messages:
       params["id"] = input.id;
 
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Alarms.Acknowledge",
         params,

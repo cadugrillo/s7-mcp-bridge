@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface PlcReadSystemTimeInput {
   plcIpAddress: string;
@@ -25,7 +26,7 @@ time corresponds to Coordinated Universal Time (UTC).
   async execute(input: PlcReadSystemTimeInput) {
     try {
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Plc.ReadSystemTime",
       };

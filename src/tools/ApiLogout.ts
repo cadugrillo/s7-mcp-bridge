@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface LogoutInput {
   plcIpAddress: string;
@@ -26,7 +27,7 @@ For security reasons, however, the method always returns the Boolean value "true
   async execute(input: LogoutInput) {
     try {
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Api.Logout",
       };

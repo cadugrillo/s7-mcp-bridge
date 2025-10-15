@@ -2,6 +2,7 @@ import { MCPTool, logger } from "mcp-framework";
 import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface VersionInput {
   plcIpAddress: string;
@@ -28,7 +29,7 @@ No authorization is required for calling the Api.Version method
   async execute(input: VersionInput) {
     try {
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Api.Version",
       };

@@ -2,6 +2,7 @@ import { MCPTool, logger } from "mcp-framework";
 import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface GetQuantityStructuresInput {
   plcIpAddress: string;
@@ -23,7 +24,7 @@ The Api.GetQuantityStructures method returns different structure information of 
   async execute(input: GetQuantityStructuresInput) {
     try {
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Api.GetQuantityStructures",
       };

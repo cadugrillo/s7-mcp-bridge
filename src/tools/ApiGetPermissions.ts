@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { credentialsStore } from "../utils/CredentialStore.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface GetPermissionsInput {
   plcIpAddress: string;
@@ -24,7 +25,7 @@ After the successful login, the Api.GetPermissions returns a list of actions for
   async execute(input: GetPermissionsInput) {
     try {
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Api.GetPermissions",
       };

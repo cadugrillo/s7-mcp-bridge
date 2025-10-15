@@ -2,6 +2,7 @@ import { MCPTool, logger } from "mcp-framework";
 import { z } from "zod";
 import { sendReq } from "../utils/Fetch.js";
 import { ipAddressSchema } from "../utils/Schemas.js";
+import { jsonRpcIdGenerator } from "../utils/JsonRpcIdGenerator.js";
 
 interface GetPasswordPolicyInput {
   plcIpAddress: string;
@@ -30,7 +31,7 @@ Possible error messages:
   async execute(input: GetPasswordPolicyInput) {
     try {
       const method = {
-        id: 45,
+        id: jsonRpcIdGenerator.getNextId(),
         jsonrpc: "2.0",
         method: "Api.GetPasswordPolicy",
       };
