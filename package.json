@@ -23,7 +23,7 @@
     "mcp-framework": "^0.2.2"
   },
   "devDependencies": {
-    "@types/node": "^20.11.24",
+    "@types/node": "^24.8.0",
     "typescript": "^5.3.3"
   },
   "engines": {
