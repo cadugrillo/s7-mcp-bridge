@@ -1,6 +1,14 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { AvailablePLCs } from './Config.js';
 import { credentialsStore } from './CredentialStore.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const logoPath = join(__dirname, '..', 'icon.png');
+const logoBase64 = readFileSync(logoPath, 'base64');
 
 /**
  * StatusPage - Simple HTTP server that serves a status page showing PLC connection status
@@ -52,9 +60,19 @@ export function createStatusPageHandler() {
             width: 100%;
             padding: 40px;
         }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .logo {
+            height: 60px;
+            width: auto;
+        }
         h1 {
             color: #2d3748;
-            margin-bottom: 10px;
+            margin: 0;
             font-size: 2em;
         }
         .subtitle {
@@ -156,7 +174,10 @@ export function createStatusPageHandler() {
 </head>
 <body>
     <div class="container">
-        <h1>S7 MCP Bridge</h1>
+        <div class="header">
+            <img src="data:image/png;base64,${logoBase64}" alt="S7 MCP Bridge Logo" class="logo">
+            <h1>S7 MCP Bridge</h1>
+        </div>
         <div class="subtitle">Model Context Protocol Server that connects AI agents to Siemens industrial PLCs.<br>(specifically S7-1500 and S7-1200 models)</div>
 
         <div class="refresh-note">
@@ -203,7 +224,7 @@ export function createStatusPageHandler() {
                         </li>
                     `).join('')}
                 </ul>
-            ` : '<div class="empty-state">All configured PLCs are connected</div>'}
+            ` : '<div class="empty-state">No PLCs currently disconnected</div>'}
         </div>
 
         <div class="footer">
