@@ -1,5 +1,7 @@
-import { MCPServer, TransportType, HttpStreamTransport, logger, Logger } from "mcp-framework";
+import { MCPServer, TransportType, logger } from "mcp-framework";
+import { createServer } from "node:http";
 import { createStatusPageHandler } from "./utils/StatusPage.js";
+import { TIMEOUT } from "node:dns";
 // ------------------------------------------------------------------------------------------------------------
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; //Local PLCs have self-signed certificates that can't be validated using Public CAs
 // ------------------------------------------------------------------------------------------------------------
@@ -9,51 +11,56 @@ if (process.env["TRANSPORT"] === "stdio") {
     transport = "stdio"
 }
 
+const mcpPort = Number(process.env["MCP_SERVER_PORT"]) || 5000;
+const statusPort = mcpPort + 1;
+
+// Start the main MCP server
 const server = new MCPServer({
     transport: {
         type: transport,
         options: {
-            port: Number(process.env["MCP_SERVER_PORT"]) || 5000
+            port: mcpPort
         }
     }
 });
 
-// Patch the HTTP transport to add /status endpoint after server starts
+// Create a separate HTTP server for the status endpoint (only if using http-stream)
+let statusServer: ReturnType<typeof createServer> | null = null;
 if (transport === "http-stream") {
-    // Wait a bit for the server to fully initialize
     setTimeout(() => {
         try {
-            const transportInstance = (server as any).transport as HttpStreamTransport;
-            const httpServer = (transportInstance as any)._server;
+            statusServer = createServer((req, res) => {
+                const url = new URL(req.url || '/', `http://${req.headers.host}`);
 
-            if (httpServer) {
-                // Get existing request listeners
-                const existingListeners = httpServer.listeners('request');
+                if (url.pathname === '/status') {
+                    createStatusPageHandler()(req, res);
+                } else {
+                    res.writeHead(404, { 'Content-Type': 'text/plain' });
+                    res.end('404 Not Found. Use /status endpoint.');
+                }
+            });
 
-                // Remove all existing listeners
-                httpServer.removeAllListeners('request');
+            statusServer.listen(statusPort, () => {
+                logger.info(`Status page available at http://localhost:${statusPort}/status`);
+            });
 
-                // Add new listener that checks for /status first
-                httpServer.on('request', (req: any, res: any) => {
-                    const url = new URL(req.url || '/', `http://${req.headers.host}`);
-
-                    if (url.pathname === '/status') {
-                        createStatusPageHandler()(req, res);
-                        return;
-                    }
-
-                    // For all other requests, call the original MCP handler
-                    for (const listener of existingListeners) {
-                        listener(req, res);
-                    }
-                });
-
-                logger.info(`Status page available at http://localhost:${Number(process.env["MCP_SERVER_PORT"]) || 5000}/status`);
-            }
         } catch (error) {
-            logger.error(`Failed to patch HTTP server for /status endpoint: ${error}`);
+            logger.error(`Failed to start server for /status endpoint: ${error}`);
         }
     }, 3000);
+
+    // Handle graceful shutdown for status server
+    const shutdownStatusServer = () => {
+        if (statusServer) {
+            logger.info('Shutting down status server...');
+            statusServer.close(() => {
+                logger.info('Status server closed');
+            });
+        }
+    };
+
+    process.on('SIGINT', shutdownStatusServer);
+    process.on('SIGTERM', shutdownStatusServer);
 }
 
 await server.start();
