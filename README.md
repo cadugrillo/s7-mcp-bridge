@@ -88,7 +88,7 @@ There is a Docker Container Image avaiable at https://hub.docker.com/r/cadugrill
 
 - How to run
 ```bash
-docker run -dp 57001:57001 -m 512m --memory-swap=512m \
+docker run -d -p 57001:57001 -p 57002:57002 -m 512m --memory-swap=512m \
 --name s7McpBridge \
 -e MCP_SERVER_PORT=57001 \
 -e PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202" \
@@ -97,6 +97,7 @@ cadugrillo/s7-mcp-bridge:latest
 ```
 
 **Remember to change port according to your deployment.**
+**When TRANSPORT is set to "http-stream", there is a status page at http://<server-ip-address>:[MCP_SERVER_PORT +1]/status**
 
 
 - Available Environment Variables
@@ -108,17 +109,19 @@ cadugrillo/s7-mcp-bridge:latest
 |  MCP_SERVER_PORT              | optional   | If not set, it defaults to 57001 |
 |  TRANSPORT                    | optional   | It can be "http-stream" or "stdio". If not set it defaults to http-stream |
 
-**When TRANSPORT is set to "http-stream", there is a status page at http://<server-ip-address>:[MCP_SERVER_PORT +1]/status **
 
 
 ### 🖥️ Connecting with Claude Desktop
 
-To use this MCP server with Claude AI (desktop version):
+To use this MCP server with Claude AI (desktop version) you can:
 
-1. Find or create the claude_desktop_config.json file
-   (typically in the Claude app config folder).
+1. Install Claude extension found at claude_extension folder (s7-mcp-bridge-vx.x.x.mcpb).
 
-2. Add or update the following if running in a container (http-stream) (remember to change port according to your deployment):
+2. Or run the docker container following instuctions above.
+
+3. Find or create the claude_desktop_config.json file (typically in the Claude app config folder).
+
+4. Add or update the following if running in a container (http-stream) (remember to change port according to your deployment):
 
 ```json
 {
@@ -138,7 +141,7 @@ To use this MCP server with Claude AI (desktop version):
   "mcpServers": {
     "S7-MCP-Bridge": {
       "command": "node",
-      "args": ["path/to/your/index.js"], //`for Windows user proper escape (eg. C:\\path\\to\\your\\index.js.js)`
+      "args": ["path/to/your/index.js"], //`for Windows user proper escape (eg. C:\\path\\to\\your\\index.js)`
       "env": {
         "PLC_IP_ADDRESSES":"192.168.2.200, 192.168.2.201, 192.168.2.202",
         "PLC_NAMES":"PLC1, PLC2, PLC3",
