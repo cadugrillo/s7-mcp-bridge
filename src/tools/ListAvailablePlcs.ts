@@ -1,8 +1,8 @@
 import { MCPTool } from "mcp-framework";
 import { AvailablePLCs } from "../utils/Config.js";
 
-class AvailablePlcs extends MCPTool {
-  name = "Available-Plcs";
+class ListAvailablePlcs extends MCPTool {
+  name = "List-AvailablePlcs";
   description = `
   The AvailablePlcs method outputs a list of all configured PLCs with their names and IP addresses.
   No authorization is required for calling the Available-Plcs method.
@@ -15,4 +15,4 @@ class AvailablePlcs extends MCPTool {
   }
 }
 
-export default AvailablePlcs;
+export default ListAvailablePlcs;
