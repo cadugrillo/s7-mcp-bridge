@@ -10,8 +10,8 @@
 
 ## 🔧 Available Tools
 
-  - User authentication (`login`, `logout`, `ChangePassword-user`)
-  - Check PLC connectivity (`ping`)
+  - User authentication (`Api-Login`, `Api-Logout`, `Api-ChangePassword`)
+  - Check PLC connectivity (`Api-Ping`)
   - Retrieve user permissions (`Api-GetPermissions`)
   - Get API version (`Api-Version`)
   - List available API methods (`Api-Browse`)
@@ -28,6 +28,9 @@
   - Browse active alarms (`Alarms-Browse`)
   - Acknowledge alarms (`Alarms-Acknowledge`)
   - Browse diagnostic buffer entries (`DiagnosticBuffer-Browse`)
+  - List all configured PLCs via env variables (`List-AvailablePlcs`)
+  - Create backup file of the CPU (`Plc-CreateBackup`)
+  - Delete a ticket provided by the system (`Api-CloseTicket`)
 
 ---
 
