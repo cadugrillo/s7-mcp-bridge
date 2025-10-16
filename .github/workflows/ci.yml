@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - "main"
+      - "0.2.0"
 
 jobs:
   docker:
@@ -32,5 +32,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            cadugrillo/s7-mcp-bridge:0.1.0
+            cadugrillo/s7-mcp-bridge:0.2.0
             cadugrillo/s7-mcp-bridge:latest

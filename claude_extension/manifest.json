@@ -1,13 +1,13 @@
 {
   "manifest_version": "0.2",
   "name": "S7 MCP Bridge",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "**S7 MCP Bridge** is a MCP Server that connects AI agents to Siemens industrial PLCs (specifically S7-1500 and S7-1200 models). This allows AI agents to automatically monitor and control industrial equipment by sending commands and receiving data from the machines.",
   "long_description": "",
   "author": {
     "name": "Carlos Grillo",
     "email": "cadugrillo@gmail.com",
-    "url": "https://cadugrillo.com"
+    "url": "https://github.com/cadugrillo"
   },
   "homepage": "https://github.com/cadugrillo/s7-mcp-bridge",
   "documentation": "https://github.com/cadugrillo/s7-mcp-bridge",
@@ -30,11 +30,11 @@
   },
   "tools": [
     {
-      "name": "Login, Logout, ChangePassword",
+      "name": "Api-Login, Api-Logout, Api-ChangePassword",
       "description": "User authentication and password management."
     },
     {
-      "name": "Ping",
+      "name": "Api-Ping",
       "description": "Check PLC connectivity status."
     },
     {
@@ -68,6 +68,50 @@
     {
       "name": "PlcProgram-Write",
       "description": "Write Boolean, Number, or String tags in the PLC."
+    },
+    {
+      "name": "Plc-ReadOperatingMode",
+      "description": "Read the current CPU operating mode (RUN, STOP, etc.)."
+    },
+    {
+      "name": "Plc-RequestChangeOperatingMode",
+      "description": "Request a change of the CPU operating mode."
+    },
+    {
+      "name": "Plc-ReadSystemTime",
+      "description": "Read the current CPU system time."
+    },
+    {
+      "name": "Plc-SetSystemTime",
+      "description": "Set the CPU system time."
+    },
+    {
+      "name": "Project-ReadLanguages",
+      "description": "Read available project languages configured in the PLC."
+    },
+    {
+      "name": "Alarms-Browse",
+      "description": "Browse active alarms on the PLC."
+    },
+    {
+      "name": "Alarms-Acknowledge",
+      "description": "Acknowledge specific alarms."
+    },
+    {
+      "name": "DiagnosticBuffer-Browse",
+      "description": "Browse diagnostic buffer entries from the PLC."
+    },
+    {
+      "name": "List-AvailablePlcs",
+      "description": "List all configured PLCs via env variables."
+    },
+    {
+      "name": "Plc-CreateBackup",
+      "description": "Create backup file of the CPU."
+    },
+    {
+      "name": "Api-CloseTicket",
+      "description": "Delete a ticket provided by the system."
     }
   ],
   "user_config": {
