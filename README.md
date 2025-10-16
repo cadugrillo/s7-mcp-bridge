@@ -48,7 +48,7 @@ This server uses environment variables for configuration.
 ```bash
 export PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202"
 export PLC_NAMES="PLC1, PLC2, PLC3" //optional
-export MCP_SERVER_PORT=5000 //optional
+export MCP_SERVER_PORT=57001 //optional
 export TRANSPORT="http-stream" //optional
 ```
 
@@ -88,9 +88,9 @@ There is a Docker Container Image avaiable at https://hub.docker.com/r/cadugrill
 
 - How to run
 ```bash
-docker run -dp 5000:5000 -m 512m --memory-swap=512m \
+docker run -dp 57001:57001 -m 512m --memory-swap=512m \
 --name s7McpBridge \
--e MCP_SERVER_PORT=5000 \
+-e MCP_SERVER_PORT=57001 \
 -e PLC_IP_ADDRESSES="192.168.2.200, 192.168.2.201, 192.168.2.202" \
 -e PLC_NAMES="PLC1, PLC2, PLC3" \
 cadugrillo/s7-mcp-bridge:latest
@@ -105,8 +105,10 @@ cadugrillo/s7-mcp-bridge:latest
 | :---------------------------: | :--------: | :------------------------------------------------------- |
 |  PLC_IP_ADDRESSES             | required   | IP addresses of available PLCs separated by comma eg. "192.168.1.10, 192.168.1.20" |
 |  PLC_NAMES                    | optional   | Names of available PLCs separated by comma eg. "Machine1, Machine2" |
-|  MCP_SERVER_PORT              | optional   | If not set, it defaults to 5000 |
+|  MCP_SERVER_PORT              | optional   | If not set, it defaults to 57001 |
 |  TRANSPORT                    | optional   | It can be "http-stream" or "stdio". If not set it defaults to http-stream |
+
+**When TRANSPORT is set to "http-stream", there is a status page at http://<server-ip-address>:[MCP_SERVER_PORT +1]/status **
 
 
 ### 🖥️ Connecting with Claude Desktop
@@ -123,7 +125,7 @@ To use this MCP server with Claude AI (desktop version):
   "mcpServers": {
     "S7-MCP-Bridge": {
       "command": "npx",
-      "args": ["mcp-remote", "http://localhost:5000/mcp"]
+      "args": ["mcp-remote", "http://localhost:57001/mcp"]
     }
   }
 }

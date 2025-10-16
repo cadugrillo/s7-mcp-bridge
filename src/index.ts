@@ -11,7 +11,7 @@ if (process.env["TRANSPORT"] === "stdio") {
     transport = "stdio"
 }
 
-const mcpPort = Number(process.env["MCP_SERVER_PORT"]) || 5000;
+const mcpPort = Number(process.env["MCP_SERVER_PORT"]) || 57001;
 const statusPort = mcpPort + 1;
 
 // Start the main MCP server
