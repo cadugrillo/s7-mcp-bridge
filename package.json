@@ -12,7 +12,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && mcp-build && cpy claude_extension/icon*.png dist",
+    "build": "tsc && mcp-build",
     "watch": "tsc --watch",
     "start": "node dist/index.js",
     "copy-files": "cpy dist/** package*.json node_modules claude_extension/** cldext",

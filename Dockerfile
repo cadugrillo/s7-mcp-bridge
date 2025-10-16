@@ -22,6 +22,7 @@ FROM node:22-alpine
 
 # Copy the Javascript application and dependencies
 COPY --from=build /usr/src/app/dist /usr/src/app
+COPY claude_extension/icon*.png /usr/src/app
 COPY package.json /usr/src/app
 
 # Set the working directory in the final container
