@@ -100,7 +100,7 @@ cadugrillo/s7-mcp-bridge:latest
 ```
 
 **Remember to change port according to your deployment.**
-**When TRANSPORT is set to "http-stream", there is a status page at http://<server-ip-address>:[MCP_SERVER_PORT +1]/status**
+**When TRANSPORT is set to "http-stream", there is a status page at http://\<server-ip-address\>:[MCP_SERVER_PORT +1]/status**
 
 
 - Available Environment Variables
@@ -109,22 +109,42 @@ cadugrillo/s7-mcp-bridge:latest
 | :---------------------------: | :--------: | :------------------------------------------------------- |
 |  PLC_IP_ADDRESSES             | required   | IP addresses of available PLCs separated by comma eg. "192.168.1.10, 192.168.1.20" |
 |  PLC_NAMES                    | optional   | Names of available PLCs separated by comma eg. "Machine1, Machine2" |
-|  MCP_SERVER_PORT              | optional   | If not set, it defaults to 57001 |
+|  MCP_SERVER_PORT              | optional   | If not set, it defaults to 57001, status page at http://\<server-ip-address\>:57002/status |
 |  TRANSPORT                    | optional   | It can be "http-stream" or "stdio". If not set it defaults to http-stream |
 
 
 
 ### 🖥️ Connecting with Claude Desktop
 
-To use this MCP server with Claude AI (desktop version) you can:
+1. Install Claude extension (s7-mcp-bridge-vx.x.x.mcpb) found at https://github.com/cadugrillo/s7-mcp-bridge/tree/main/claude_extension.
 
-1. Install Claude extension found at claude_extension folder (s7-mcp-bridge-vx.x.x.mcpb).
+2. Or run as a Docker Container choosing from one of the options (stdio or http-stream):
 
-2. Or run the docker container following instuctions above.
+- (stdio) Find or create the claude_desktop_config.json file (typically in the Claude app config folder) and add the following:
 
-3. Find or create the claude_desktop_config.json file (typically in the Claude app config folder).
+```json
+{
+    "mcpServers": {
+        "S7-MCP-Bridge": {
+            "command": "docker",
+            "args": [
+                "run",
+                "-i",
+                "--rm",
+                "-e",
+                "PLC_IP_ADDRESSES=192.168.2.200, 192.168.2.201, 192.168.2.202",
+                "-e",
+                "PLC_NAMES=PLC1, PLC2, PLC3",
+                "-e",
+                "TRANSPORT=stdio",
+                "cadugrillo/s7-mcp-bridge:latest"
+            ]
+        }
+    }
+}
+```
 
-4. Add or update the following if running in a container (http-stream) (remember to change port according to your deployment):
+- (http-stream) Or run the docker container (instructions above) and add the following (remember to change port according to your deployment):
 
 ```json
 {
@@ -137,7 +157,7 @@ To use this MCP server with Claude AI (desktop version) you can:
 }
 ```
 
-3. Or use the following if running locally (stdio):
+3. Or use the following if running locally for development (stdio):
 
 ```json
 {
