@@ -7,7 +7,7 @@
 **S7 MCP Bridge** is a MCP Server that connects AI agents to Siemens industrial PLCs (specifically S7-1500 and S7-1200 models). This allows AI agents to automatically monitor and control industrial equipment by sending commands and receiving data from the machines.
 
 
-![](docs/videos/images/claude_demo_short.gif)
+![](docs/videos/claude_demo_short.gif)
 
 
 ---
