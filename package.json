@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "cpy-cli": "^6.0.0",
-    "mcp-framework": "^0.2.2"
+    "mcp-framework": "^0.2.18"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
