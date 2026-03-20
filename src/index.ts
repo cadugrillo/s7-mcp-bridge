@@ -2,6 +2,7 @@ import { MCPServer, TransportType, logger } from "mcp-framework";
 import { createServer } from "node:http";
 import { createStatusPageHandler } from "./utils/StatusPage.js";
 import { TIMEOUT } from "node:dns";
+import { setSdkServer } from "./utils/SdkServerRef.js";
 // ------------------------------------------------------------------------------------------------------------
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; //Local PLCs have self-signed certificates that can't be validated using Public CAs
 // ------------------------------------------------------------------------------------------------------------
@@ -62,5 +63,17 @@ if (transport === "http-stream") {
     process.on('SIGINT', shutdownStatusServer);
     process.on('SIGTERM', shutdownStatusServer);
 }
+
+// Capture the SDK Server instance created inside MCPServer.start() for elicitation support.
+// MCPServer assigns this.server (the SDK Server) early in its start() execution.
+// We poll until it's available, then store it for tools to use.
+const captureInterval = setInterval(() => {
+    const sdkServer = (server as any).server;
+    if (sdkServer) {
+        setSdkServer(sdkServer);
+        clearInterval(captureInterval);
+        logger.info("SDK Server reference captured for elicitation support.");
+    }
+}, 100);
 
 await server.start();
